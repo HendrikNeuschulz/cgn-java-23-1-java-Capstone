@@ -21,4 +21,7 @@ public class Recipe {
     String[] ingredients;
     String[] likedby;
     String[] comments;
-}
+
+    public Recipe(String name) {
+        this.name = name;
+}}
