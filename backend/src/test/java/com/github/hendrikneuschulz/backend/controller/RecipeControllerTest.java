@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -32,20 +33,20 @@ class RecipeControllerTest {
     String[] likedby = {"user1", "user2", "user3"};
     String[] comments = {"This recipe is amazing!", "I loved it", "I added some mushrooms and it was great"};
     @Test
-    public void testGetRecipes() {
-        // Setup
+     void testGetRecipes() {
+
         Recipe recipe1= new Recipe(id, name, category, instructions, image, youtube, measure, ingredients, likedby, comments);
         Recipe recipe2= new Recipe(id, name, category, instructions, image, youtube, measure, ingredients, likedby, comments);
 
-        ArrayList<Recipe> recipeList = new ArrayList<>();
+       List<Recipe> recipeList = new ArrayList<>();
         recipeList.add(recipe1);
         recipeList.add(recipe2);
         when(recipeServiceMock.getRecipeList()).thenReturn(recipeList);
 
-        // Execute
-        ArrayList<Recipe> result = recipeController.getRecipes();
 
-        // Verify
+        List<Recipe> result = recipeController.getRecipes();
+
+
         assertEquals(recipeList, result);
         verify(recipeServiceMock, times(1)).getRecipeList();
     }

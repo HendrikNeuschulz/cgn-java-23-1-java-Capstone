@@ -9,9 +9,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RecipeServiceTest {
+ class RecipeServiceTest {
     @Test
-    public void testGetRecipeList() {
+    void testGetRecipeList() {
 
         RecipeRepository recipeRepository = Mockito.mock(RecipeRepository.class);
         List<Recipe> mockRecipes = new ArrayList<>();
@@ -22,7 +22,7 @@ public class RecipeServiceTest {
 
         RecipeService recipeService = new RecipeService(recipeRepository);
 
-        ArrayList<Recipe> recipeList = recipeService.getRecipeList();
+        List<Recipe> recipeList = recipeService.getRecipeList();
         assertEquals(2, recipeList.size());
         assertEquals("Recipe 1", recipeList.get(0).getName());
         assertEquals("Recipe 2", recipeList.get(1).getName());

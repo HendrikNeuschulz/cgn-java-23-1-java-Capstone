@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/wtf")
@@ -17,7 +18,7 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     @GetMapping("/recipes")
-    public ArrayList<Recipe> getRecipes() {
+    public List<Recipe> getRecipes() {
         return recipeService.getRecipeList();
     }
 
