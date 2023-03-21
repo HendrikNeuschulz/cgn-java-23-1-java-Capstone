@@ -10,11 +10,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/wtf")
 public class RecipeController {
+    private final RecipeService recipeService;
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
-
-    private final RecipeService recipeService;
 
     @GetMapping("/recipes")
     public List<Recipe> getRecipes() {
