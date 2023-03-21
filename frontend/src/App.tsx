@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React,  {useEffect} from "react";
+import RecipeList from "../src/compontens/RecipeList"
+import {useRecipeList} from "./Hooks/useGetRecipes";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const {recipes, getRecipes} = useRecipeList();
+
+    useEffect(() => {
+        getRecipes()
+    }, [getRecipes]);
+
+    return (
+        <div className="App">
+            <header className="App-header">
+
+            </header>
+            <RecipeList recipeList={recipes}/>
+        </div>
+    );
 }
 
 export default App;
