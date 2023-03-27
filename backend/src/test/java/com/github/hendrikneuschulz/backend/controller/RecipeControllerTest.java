@@ -43,7 +43,7 @@ class RecipeControllerTest {
     }
 
     @Test
-    public void testGetRandomRecipe() {
+    void testGetRandomRecipe() {
 
         RecipeService recipeService = mock(RecipeService.class);
         List<Recipe> recipeList = Arrays.asList(
