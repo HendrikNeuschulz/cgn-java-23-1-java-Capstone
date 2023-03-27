@@ -1,5 +1,5 @@
 import React from "react";
-import { Recipe } from "../model/Recipe";
+import {Recipe} from "../model/Recipe";
 import styled from "styled-components";
 
 interface RecipeProps extends Recipe {}
@@ -18,14 +18,14 @@ const RecipeName = styled.p`
   font-size: 1.5rem;
   font-weight: bold;
   border: 1px solid black;
-  width: 30%;
+  width: 90%;
   padding: 0.5rem;
-  box-shadow: black 0px 0px 10px;
+  box-shadow: black 0 0 10px;
 `;
 
 const RecipeImage = styled.img`
-  width: 30%;
-  box-shadow: black 0px 0px 10px;
+  width: 90%;
+  box-shadow: black 0 0 10px;
 `;
 
 const RecipeListContainer = styled.div`
