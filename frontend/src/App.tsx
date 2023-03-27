@@ -1,24 +1,15 @@
-import React,  {useEffect} from "react";
-import RecipeList from "../src/compontens/RecipeList"
-import {useRecipeList} from "./Hooks/useGetRecipes";
+import React from 'react';
+import RecipeList from "./compontens/RandomRecipe";
+import Header from "./compontens/Header";
 
 
-function App() {
-
-    const {recipes, getRecipes} = useRecipeList();
-
-    useEffect(() => {
-        getRecipes()
-    }, [getRecipes]);
-
+export default function App() {
     return (
         <div className="App">
-            <header className="App-header">
+            <Header/>
+            <RecipeList onAddToFavorites={() => {
+            }}/>
 
-            </header>
-            <RecipeList recipeList={recipes}/>
         </div>
     );
 }
-
-export default App;
