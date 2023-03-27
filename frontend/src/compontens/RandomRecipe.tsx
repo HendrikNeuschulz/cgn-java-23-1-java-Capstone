@@ -5,7 +5,7 @@ import RecipeItem from './RecipeItem';
 
 
 export default function RandomRecipe() {
-    const [recipe, setRecipe] = useState<Recipe | null>(null);
+    const [recipe, setRecipe] = useState<Recipe | undefined>(undefined);
 
     const fetchRandomRecipe = async () => {
         try {

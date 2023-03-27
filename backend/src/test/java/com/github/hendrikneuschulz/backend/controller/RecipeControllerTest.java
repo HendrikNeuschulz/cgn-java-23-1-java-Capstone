@@ -6,10 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 
@@ -42,23 +41,4 @@ class RecipeControllerTest {
         verify(recipeServiceMock, times(1)).getRecipeList();
     }
 
-    @Test
-    void testGetRandomRecipe() {
-
-        RecipeService recipeService = mock(RecipeService.class);
-        List<Recipe> recipeList = Arrays.asList(
-                new Recipe("Recipe 1"),
-                new Recipe("Recipe 2"),
-                new Recipe("Recipe 3")
-        );
-        when(recipeService.getRecipeList()).thenReturn(recipeList);
-
-
-        RecipeController recipeController = new RecipeController(recipeService);
-        Recipe randomRecipe = recipeController.getRandomRecipe();
-        assertNotNull(randomRecipe);
-
-
-        assertTrue(recipeList.contains(randomRecipe));
-    }
 }

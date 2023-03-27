@@ -5,9 +5,10 @@ import com.github.hendrikneuschulz.backend.repository.RecipeRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -30,5 +31,22 @@ class RecipeServiceTest {
         assertEquals("Recipe 2", recipeList.get(1).getName());
     }
 
+    @Test
+    void testGetRandomRecipe() {
 
+        RecipeRepository recipeRepository = mock(RecipeRepository.class);
+        List<Recipe> recipeList = Arrays.asList(
+                new Recipe("Recipe 1"),
+                new Recipe("Recipe 2"),
+                new Recipe("Recipe 3")
+        );
+        when(recipeRepository.findAll()).thenReturn(recipeList);
+
+        RecipeService recipeService = new RecipeService(recipeRepository);
+
+        Recipe randomRecipe = recipeService.getRandomRecipe();
+        assertNotNull(randomRecipe);
+        assertTrue(recipeList.contains(randomRecipe));
+    }
 }
+
