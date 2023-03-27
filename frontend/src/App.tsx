@@ -7,8 +7,7 @@ export default function App() {
     return (
         <div className="App">
             <Header/>
-            <RecipeList onAddToFavorites={() => {
-            }}/>
+            <RecipeList/>
 
         </div>
     );

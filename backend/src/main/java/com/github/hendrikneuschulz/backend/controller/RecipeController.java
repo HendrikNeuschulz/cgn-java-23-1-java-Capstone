@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 
 @RestController
 @RequestMapping("/api/wtf/recipes")
@@ -26,7 +26,7 @@ public class RecipeController {
     @GetMapping("/random")
     public Recipe getRandomRecipe() {
         List<Recipe> recipeList = recipeService.getRecipeList();
-        int randomIndex = new Random().nextInt(recipeList.size());
+        int randomIndex = new SecureRandom().nextInt(recipeList.size());
         return recipeList.get(randomIndex);
     }
 
