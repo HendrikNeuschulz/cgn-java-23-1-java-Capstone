@@ -2,9 +2,7 @@ package com.github.hendrikneuschulz.backend.controller;
 
 import com.github.hendrikneuschulz.backend.model.Recipe;
 import com.github.hendrikneuschulz.backend.service.RecipeService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +25,9 @@ public class RecipeController {
         return recipeService.getRandomRecipe();
     }
 
+    @PostMapping("/add")
+    public Recipe addRecipe(@RequestBody Recipe recipe) {
+        return recipeService.addRecipe(recipe);
+    }
 
 }

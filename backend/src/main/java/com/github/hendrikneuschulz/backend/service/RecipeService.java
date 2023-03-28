@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecipeService {
     private final RecipeRepository recipeRepository;
+    private final IdService idService;
 
     public List<Recipe> getRecipeList() {
         List<Recipe> recipeList = recipeRepository.findAll();
@@ -25,5 +26,10 @@ public class RecipeService {
         return recipeList.get(randomIndex);
     }
 
+    public Recipe addRecipe(Recipe recipe) {
+        String id = idService.generateId();
+        recipe.setId(id);
+        return recipeRepository.save(recipe);
+    }
 
 }
