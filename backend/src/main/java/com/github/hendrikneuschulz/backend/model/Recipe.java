@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document("recipes")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,11 +19,12 @@ public class Recipe {
     String instructions;
     String image;
     String youtube;
-    String[] measure;
-    String[] ingredients;
-    String[] likedby;
-    String[] comments;
+    private List<String> measure;
+    private List<String> ingredients;
+    private List<String> likedby;
+    private List<String> comments;
 
     public Recipe(String name) {
         this.name = name;
-}}
+    }
+}
