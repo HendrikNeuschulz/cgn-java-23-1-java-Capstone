@@ -1,7 +1,6 @@
 import {Recipe} from "../model/Recipe";
 import axios from "axios";
 
-
 export default function AddSingleRecipe() {
     function postSingleRecipe(props: Recipe | undefined) {
         if (props) {

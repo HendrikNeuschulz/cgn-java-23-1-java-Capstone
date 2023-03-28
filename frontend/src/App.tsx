@@ -3,6 +3,7 @@ import RecipeList from "./compontens/RandomRecipe";
 import Header from "./compontens/Header";
 import {Route, Routes} from "react-router-dom";
 import AddRecipe from "./compontens/AddRecipe";
+import Navbar from "./compontens/Navbar";
 
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
                 <Route path="/" element={<RecipeList/>}></Route>
                 <Route path="/add" element={<AddRecipe/>}></Route>
             </Routes>
+            <Navbar/>
 
 
         </div>

@@ -1,6 +1,9 @@
 import AddSingleRecipe from "../Hooks/useAddSingleRecipe";
 import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {Recipe} from "../model/Recipe";
+import styled from "styled-components";
+import Navbar from "./Navbar";
+import checkbutton from "../Items/foursquare-check-in.png"
 
 export default function AddRecipe() {
     const {postSingleRecipe} = AddSingleRecipe();
@@ -42,19 +45,64 @@ export default function AddRecipe() {
     }, [addRecipe, postSingleRecipe]);
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h1>Add your tasty Recipe</h1>
-            <label>Name:</label>
-            <input type="text" value={inputFields.name} onChange={handleChange} name="name"/>
-            <label>measure:</label>
-            <input type="text" value={inputFields.measure} onChange={handleChange} name="measure"/>
-            <label>Ingredients:</label>
-            <input type="text" value={inputFields.ingredients} onChange={handleChange} name="ingredients"/>
-            <label>Instructions:</label>
-            <input type="text" value={inputFields.instructions} onChange={handleChange} name="instructions"/>
-            <label>Video:</label>
-            <input type="text" value={inputFields.youtube} onChange={handleChange} name="youtube"/>
-            <button type="submit">Add Recipe</button>
-        </form>
+        <>
+            <FormContainer onSubmit={handleSubmit}>
+                <FormHeadline>Add your tasty Recipe</FormHeadline>
+                <NameInput type="text" value={inputFields.name} onChange={handleChange} name="name" placeholder="Name"/>
+                <IngredientsInput type="text" value={inputFields.ingredients} onChange={handleChange} name="ingredients"
+                                  placeholder="Ingredients"/>
+                <InstructionsInput type="text" value={inputFields.instructions} onChange={handleChange}
+                                   name="instructions"
+                                   placeholder="Instructions"/>
+                <CheckButton type="submit"><img src={checkbutton} alt="checkbutton" width="50"
+                                                height="50"/></CheckButton>
+            </FormContainer>
+            <Navbar/>
+        </>
+
+
     );
 }
+
+const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  margin: 10px;
+  gap: 10px;
+
+`
+
+const FormHeadline = styled.h1`
+  text-align: center;
+`
+
+const NameInput = styled.input`
+  padding: 5px;
+  height: 20px;
+  font-size: 20px;
+`
+
+const IngredientsInput = styled.input`
+  padding: 5px;
+  height: 100px;
+  font-size: 20px;
+
+`
+const InstructionsInput = styled.input`
+  padding: 5px;
+  height: 150px;
+  font-size: 20px;
+`
+
+const CheckButton = styled.button`
+  width: 20%;
+  align-self: center;
+  border: none;
+  background-color: white;
+  padding-top: 25px;
+
+  &:active {
+    transform: scale(0.7);
+  }
+`
