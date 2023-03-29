@@ -28,7 +28,7 @@ public class RecipeService {
         if (recipeList.isEmpty()) {
             throw new RuntimeException("Die Rezeptliste ist leer.");
         }
-        int randomIndex = new SecureRandom().nextInt(recipeList.size() - 1);
+        int randomIndex = new SecureRandom().nextInt(0, recipeList.size());
         return recipeList.get(randomIndex);
     }
 
