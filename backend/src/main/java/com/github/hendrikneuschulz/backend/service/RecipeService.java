@@ -12,6 +12,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class RecipeService {
+
+
     private final RecipeRepository recipeRepository;
     private final IdService idService;
 
@@ -22,7 +24,11 @@ public class RecipeService {
 
     public Recipe getRandomRecipe() {
         List<Recipe> recipeList = getRecipeList();
-        int randomIndex = new SecureRandom().nextInt(recipeList.size());
+
+        if (recipeList.isEmpty()) {
+            throw new RuntimeException("Die Rezeptliste ist leer.");
+        }
+        int randomIndex = new SecureRandom().nextInt(recipeList.size() - 1);
         return recipeList.get(randomIndex);
     }
 
