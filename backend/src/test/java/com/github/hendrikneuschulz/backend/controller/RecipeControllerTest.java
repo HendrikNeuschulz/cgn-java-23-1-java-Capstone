@@ -45,7 +45,7 @@ class RecipeControllerTest {
                                                     "category": "category",
                                                     "instructions": "instruction",
                                                     "image": "image",
-                                                    "youtube": "youtube",
+                                                    "youtubeUrl": "youtube",
                                                     "measure": ["Abc"],
                                                     "ingredients": ["Abc"]
                                                    
@@ -61,7 +61,7 @@ class RecipeControllerTest {
                 .andExpect(jsonPath("$.category").isNotEmpty())
                 .andExpect(jsonPath("$.instructions").isNotEmpty())
                 .andExpect(jsonPath("$.image").isNotEmpty())
-                .andExpect(jsonPath("$.youtube").isNotEmpty())
+                .andExpect(jsonPath("$.youtubeUrl").isNotEmpty())
                 .andExpect(jsonPath("$.measure").isArray())
                 .andExpect(jsonPath("$.ingredients").isArray())
 
@@ -69,5 +69,5 @@ class RecipeControllerTest {
         System.out.println(response);
 
     }
-    
+
 }

@@ -23,7 +23,7 @@ class RecipeServiceTest {
             .category("Test")
             .instructions("Test")
             .image("Test")
-            .youtube("Test")
+            .youtubeUrl("Test")
             .measure(List.of("Test"))
             .ingredients(List.of("Test"))
             .build();
@@ -33,7 +33,7 @@ class RecipeServiceTest {
             .category("Test")
             .instructions("Test")
             .image("Test")
-            .youtube("Test")
+            .youtubeUrl("Test")
             .measure(List.of("Test"))
             .ingredients(List.of("Test"))
             .build();
@@ -78,18 +78,18 @@ class RecipeServiceTest {
 
     @Test
     void testAddRecipe() {
-        RecipeDTO recipeRequestModel = RecipeDTO.builder().name("Test Recipe").build();
-        Recipe recipe = new Recipe(recipeRequestModel);
+        RecipeDTO recipeToAdd = RecipeDTO.builder().name("Test Recipe").build();
+        Recipe recipe = new Recipe(recipeToAdd);
 
         when(idServiceMock.generateId()).thenReturn("123");
         recipe.setId("123");
         when(recipeRepositoryMock.save(recipe)).thenReturn(recipe);
 
-        Recipe result = recipeService.addRecipe(recipeRequestModel);
+        Recipe result = recipeService.addRecipe(recipeToAdd);
 
         assertNotNull(result);
         assertEquals("123", result.getId());
-        assertEquals(recipeRequestModel.getName(), result.getName());
+        assertEquals(recipeToAdd.getName(), result.getName());
         verify(idServiceMock, times(1)).generateId();
         verify(recipeRepositoryMock, times(1)).save(recipe);
     }

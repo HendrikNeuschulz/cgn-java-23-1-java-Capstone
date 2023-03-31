@@ -20,23 +20,21 @@ public class Recipe {
     String category;
     String instructions;
     String image;
-    String youtube;
+    String youtubeUrl;
     List<String> measure;
     List<String> ingredients;
     List<String> likedby;
     List<String> comments;
 
-    public Recipe(RecipeDTO recipeRequestModel) {
-        this.name = recipeRequestModel.getName();
-        this.category = recipeRequestModel.getCategory();
-        this.instructions = recipeRequestModel.getInstructions();
-        this.image = recipeRequestModel.getImage();
-        this.youtube = recipeRequestModel.getYoutube();
-        this.measure = recipeRequestModel.getMeasure();
-        this.ingredients = recipeRequestModel.getIngredients();
+    public Recipe(RecipeDTO recipeToAdd) {
+        this.name = recipeToAdd.getName();
+        this.category = recipeToAdd.getCategory();
+        this.instructions = recipeToAdd.getInstructions();
+        this.image = recipeToAdd.getImage();
+        this.youtubeUrl = recipeToAdd.getYoutubeUrl();
+        this.measure = recipeToAdd.getMeasure();
+        this.ingredients = recipeToAdd.getIngredients();
     }
-
-
 }
 
 

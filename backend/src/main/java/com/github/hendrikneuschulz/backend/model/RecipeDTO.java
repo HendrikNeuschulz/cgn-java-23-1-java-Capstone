@@ -14,7 +14,7 @@ public class RecipeDTO {
     String category;
     String instructions;
     String image;
-    String youtube;
+    String youtubeUrl;
     List<String> measure;
     List<String> ingredients;
 

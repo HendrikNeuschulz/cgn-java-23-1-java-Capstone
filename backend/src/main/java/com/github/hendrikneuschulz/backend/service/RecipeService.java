@@ -32,8 +32,8 @@ public class RecipeService {
         return null;
     }
 
-    public Recipe addRecipe(RecipeDTO recipeRequestModel) {
-        Recipe recipe = new Recipe(recipeRequestModel);
+    public Recipe addRecipe(RecipeDTO recipeToAdd) {
+        Recipe recipe = new Recipe(recipeToAdd);
         recipe.setId(idService.generateId());
         return recipeRepository.save(recipe);
     }
