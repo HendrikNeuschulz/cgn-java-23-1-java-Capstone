@@ -1,52 +1,73 @@
 package com.github.hendrikneuschulz.backend.controller;
 
-import com.github.hendrikneuschulz.backend.model.Recipe;
-import com.github.hendrikneuschulz.backend.service.RecipeService;
-import org.junit.jupiter.api.BeforeEach;
+import com.github.hendrikneuschulz.backend.repository.RecipeRepository;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
 
+@SpringBootTest
+@AutoConfigureMockMvc
 class RecipeControllerTest {
-    private RecipeService recipeServiceMock;
-    private RecipeController recipeController;
 
-    @BeforeEach
-    public void setUp() {
-        recipeServiceMock = mock(RecipeService.class);
-        recipeController = new RecipeController(recipeServiceMock);
+    @Autowired
+    MockMvc mockMvc;
+
+    @Autowired
+    RecipeRepository recipeRepository;
+
+
+    @Test
+    void whenGetAllRecipes_ThenReturnListOfAllRecipes() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/wtf/recipes"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json("[]"));
     }
 
     @Test
-    void testGetRecipes() {
-        Recipe recipe1 = new Recipe("Recipe 1");
-        Recipe recipe2 = new Recipe("Recipe 2");
+    @DirtiesContext
+    void whenGetRandomRecipes_ThenReturnOneRandomRecipes() throws Exception {
 
-        List<Recipe> recipeList = new ArrayList<>();
-        recipeList.add(recipe1);
-        recipeList.add(recipe2);
-        when(recipeServiceMock.getRecipeList()).thenReturn(recipeList);
+        mockMvc.perform(MockMvcRequestBuilders.post(
+                        "/api/wtf/recipes/add")
+                .contentType("application/json")
+                .content("""
+                                                {
+                                                    "id": "id",
+                                                    "name": "name",
+                                                    "category": "category",
+                                                    "instructions": "instruction",
+                                                    "image": "image",
+                                                    "youtubeUrl": "youtube",
+                                                    "measure": ["Abc"],
+                                                    "ingredients": ["Abc"]
+                                                   
+                                                }
+                                                
+                        """)
+        );
 
-        List<Recipe> result = recipeController.getRecipes();
+        var response = mockMvc.perform(MockMvcRequestBuilders.get("/api/wtf/recipes/random"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.name").isNotEmpty())
+                .andExpect(jsonPath("$.category").isNotEmpty())
+                .andExpect(jsonPath("$.instructions").isNotEmpty())
+                .andExpect(jsonPath("$.image").isNotEmpty())
+                .andExpect(jsonPath("$.youtubeUrl").isNotEmpty())
+                .andExpect(jsonPath("$.measure").isArray())
+                .andExpect(jsonPath("$.ingredients").isArray())
 
-        assertEquals(recipeList, result);
-        verify(recipeServiceMock, times(1)).getRecipeList();
+                .andReturn();
+        System.out.println(response);
+
     }
 
-    @Test
-    void testGetRandomRecipe() {
-        Recipe randomRecipe = new Recipe("Random Recipe");
-        when(recipeServiceMock.getRandomRecipe()).thenReturn(randomRecipe);
-
-        Recipe result = recipeController.getRandomRecipe();
-
-        assertNotNull(result);
-        assertEquals(randomRecipe.getName(), result.getName());
-        verify(recipeServiceMock, times(1)).getRandomRecipe();
-    }
 }
