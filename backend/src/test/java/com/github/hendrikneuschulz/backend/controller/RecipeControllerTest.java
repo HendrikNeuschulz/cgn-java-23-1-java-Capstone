@@ -32,6 +32,7 @@ class RecipeControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void whenGetRandomRecipes_ThenReturnOneRandomRecipes() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.post(
@@ -45,10 +46,9 @@ class RecipeControllerTest {
                                                     "instructions": "instruction",
                                                     "image": "image",
                                                     "youtube": "youtube",
-                                                    "measure": [],
-                                                    "ingredients": [],
-                                                    "likedby": [],
-                                                    "comments": []
+                                                    "measure": ["Abc"],
+                                                    "ingredients": ["Abc"]
+                                                   
                                                 }
                                                 
                         """)
