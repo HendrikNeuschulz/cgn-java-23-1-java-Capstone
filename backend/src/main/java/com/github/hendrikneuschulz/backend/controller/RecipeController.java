@@ -1,6 +1,7 @@
 package com.github.hendrikneuschulz.backend.controller;
 
 import com.github.hendrikneuschulz.backend.model.Recipe;
+import com.github.hendrikneuschulz.backend.model.RecipeDTO;
 import com.github.hendrikneuschulz.backend.service.IdService;
 import com.github.hendrikneuschulz.backend.service.RecipeService;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +31,8 @@ public class RecipeController {
     }
 
     @PostMapping("/add")
-    public Recipe addRecipe(@RequestBody Recipe recipe) {
-        return recipeService.addRecipe(recipe);
+    public Recipe addRecipe(@RequestBody RecipeDTO recipeRequestModel) {
+        return recipeService.addRecipe(recipeRequestModel);
     }
 
 }
