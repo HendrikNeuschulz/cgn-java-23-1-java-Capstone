@@ -2,7 +2,6 @@ package com.github.hendrikneuschulz.backend.controller;
 
 import com.github.hendrikneuschulz.backend.model.Recipe;
 import com.github.hendrikneuschulz.backend.model.RecipeDTO;
-import com.github.hendrikneuschulz.backend.service.IdService;
 import com.github.hendrikneuschulz.backend.service.RecipeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,12 +11,9 @@ import java.util.List;
 @RequestMapping("/api/wtf/recipes")
 public class RecipeController {
     private final RecipeService recipeService;
-    private final IdService idService;
 
-
-    public RecipeController(RecipeService recipeService, IdService idService) {
+    public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
-        this.idService = idService;
     }
 
     @GetMapping
