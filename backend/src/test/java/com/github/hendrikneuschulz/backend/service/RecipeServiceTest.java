@@ -1,9 +1,11 @@
 package com.github.hendrikneuschulz.backend.service;
 
+import com.cloudinary.Cloudinary;
 import com.github.hendrikneuschulz.backend.model.Recipe;
 import com.github.hendrikneuschulz.backend.model.RecipeDTO;
 import com.github.hendrikneuschulz.backend.repository.RecipeRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +39,9 @@ class RecipeServiceTest {
             .measure(List.of("Test"))
             .ingredients(List.of("Test"))
             .build();
+
+    Cloudinary cloudinaryMock = Mockito.mock(Cloudinary.class);
+    PhotoService photoService = new PhotoService(cloudinaryMock);
 
     @Test
     void testGetRecipeList() {
@@ -93,4 +98,6 @@ class RecipeServiceTest {
         verify(idServiceMock, times(1)).generateId();
         verify(recipeRepositoryMock, times(1)).save(recipe);
     }
+
+
 }

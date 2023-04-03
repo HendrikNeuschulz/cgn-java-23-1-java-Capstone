@@ -19,7 +19,7 @@ public class PhotoController {
 
     @PostMapping
     public String uploadPhoto(@RequestParam("file") MultipartFile photo) throws IOException {
-        return photoService.uploadPhoto(photo);
+        return photoService.uploadImage(photo);
     }
 
 }
