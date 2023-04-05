@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(controllers = PhotoController.class)
-public class PhotoControllerTest {
+class PhotoControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -35,7 +35,7 @@ public class PhotoControllerTest {
     }
 
     @Test
-    public void shouldUploadPhoto() throws Exception {
+    void shouldUploadPhoto() throws Exception {
         String expectedResponse = "http://example.com/test.jpg";
 
         when(photoService.uploadImage(mockMultipartFile)).thenReturn(expectedResponse);
