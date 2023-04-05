@@ -4,7 +4,10 @@ import com.github.hendrikneuschulz.backend.model.Recipe;
 import com.github.hendrikneuschulz.backend.model.RecipeDTO;
 import com.github.hendrikneuschulz.backend.repository.RecipeRepository;
 import org.junit.jupiter.api.Test;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +20,9 @@ class RecipeServiceTest {
     RecipeRepository recipeRepositoryMock = mock(RecipeRepository.class);
     IdService idServiceMock = mock(IdService.class);
     RecipeService recipeService = new RecipeService(recipeRepositoryMock, idServiceMock);
+
+    PhotoService photoService = mock(PhotoService.class);
+    MultipartFile multipartFile = mock(MultipartFile.class);
 
 
     Recipe recipe = Recipe.builder()
@@ -94,6 +100,18 @@ class RecipeServiceTest {
         assertEquals(recipeToAdd.getName(), result.getName());
         verify(idServiceMock, times(1)).generateId();
         verify(recipeRepositoryMock, times(1)).save(recipe);
+    }
+
+
+    @Test
+    void testUploadImage() throws IOException {
+        File fileToUpload = File.createTempFile("image", null);
+        multipartFile.transferTo(fileToUpload);
+
+        when(photoService.uploadImage(multipartFile)).thenReturn(recipe.getImage());
+        String actual = photoService.uploadImage(multipartFile);
+        assertEquals(recipe.getImage(), actual);
+
     }
 
 
