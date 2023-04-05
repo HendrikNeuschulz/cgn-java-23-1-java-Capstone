@@ -1,47 +1,56 @@
 package com.github.hendrikneuschulz.backend.service;
 
-import com.github.hendrikneuschulz.backend.model.Recipe;
-import com.github.hendrikneuschulz.backend.repository.RecipeRepository;
+import com.cloudinary.Cloudinary;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class PhotoServiceTest {
 
-    PhotoService photoService = mock(PhotoService.class);
-    MultipartFile multipartFile = mock(MultipartFile.class);
+    Cloudinary cloudinaryMock = mock(Cloudinary.class);
 
-    RecipeRepository recipeRepositoryMock = mock(RecipeRepository.class);
-    IdService idServiceMock = mock(IdService.class);
-    RecipeService recipeService = new RecipeService(recipeRepositoryMock, idServiceMock);
+    PhotoService photoService = new PhotoService(cloudinaryMock);
 
-
-    Recipe recipe = Recipe.builder()
-            .name("Recipe 1")
-            .category("Test")
-            .instructions("Test")
-            .image("Test")
-            .youtubeUrl("Test")
-            .measure(List.of("Test"))
-            .ingredients(List.of("Test"))
-            .build();
 
     @Test
-    void testUploadImage() throws IOException {
-        File fileToUpload = File.createTempFile("image", null);
-        multipartFile.transferTo(fileToUpload);
+    void testUploadImageSuccess() throws IOException {
+        MockMultipartFile multipartFile = new MockMultipartFile(
+                "file",
+                "test-image.jpg",
+                "image/jpeg",
+                "Test image content".getBytes()
+        );
 
-        when(photoService.uploadImage(multipartFile)).thenReturn(recipe.getImage());
+        Map<String, String> response = Map.of("url", "https://example.com/test-image.jpg");
+        when(cloudinaryMock.uploader()).thenReturn(mock(com.cloudinary.Uploader.class));
+        when(cloudinaryMock.uploader().upload(any(File.class), any(Map.class))).thenReturn(response);
+
         String actual = photoService.uploadImage(multipartFile);
-        assertEquals(recipe.getImage(), actual);
 
+        assertEquals("https://example.com/test-image.jpg", actual);
     }
 
+    @Test
+    void testUploadImageIOException() throws IOException {
+        MockMultipartFile multipartFile = new MockMultipartFile(
+                "file",
+                "test-image.jpg",
+                "image/jpeg",
+                "Test image content".getBytes()
+        );
+
+        when(cloudinaryMock.uploader()).thenReturn(mock(com.cloudinary.Uploader.class));
+        when(cloudinaryMock.uploader().upload(any(File.class), any(Map.class))).thenThrow(IOException.class);
+
+        assertThrows(IOException.class, () -> photoService.uploadImage(multipartFile));
+    }
 }
