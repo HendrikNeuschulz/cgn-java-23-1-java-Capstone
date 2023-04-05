@@ -18,6 +18,7 @@ class RecipeServiceTest {
     IdService idServiceMock = mock(IdService.class);
     RecipeService recipeService = new RecipeService(recipeRepositoryMock, idServiceMock);
 
+
     Recipe recipe = Recipe.builder()
             .name("Recipe 1")
             .category("Test")
@@ -37,6 +38,7 @@ class RecipeServiceTest {
             .measure(List.of("Test"))
             .ingredients(List.of("Test"))
             .build();
+
 
     @Test
     void testGetRecipeList() {
@@ -93,4 +95,7 @@ class RecipeServiceTest {
         verify(idServiceMock, times(1)).generateId();
         verify(recipeRepositoryMock, times(1)).save(recipe);
     }
+
+
+
 }

@@ -4,6 +4,7 @@ import {Recipe} from "../model/Recipe";
 import styled from "styled-components";
 import Navbar from "./Navbar";
 import checkbutton from "../Items/foursquare-check-in.png"
+import axios from "axios";
 
 export default function AddRecipe() {
     const {postSingleRecipe} = AddSingleRecipe();
@@ -16,6 +17,8 @@ export default function AddRecipe() {
         instructions: '',
         youtube: '',
     });
+    const [file, setFile] = React.useState<File | null>(null);
+    const [url, setUrl] = React.useState<string>("");
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -31,6 +34,19 @@ export default function AddRecipe() {
             measure: inputFields.measure.split(','),
             instructions: inputFields.instructions,
         };
+        const payload = new FormData();
+        if (!file) {
+            return;
+        }
+        payload.set('file', file);
+        axios.post("/api/wtf/recipes/upload", payload)
+            .then(res => {
+                setUrl(res.data)
+                console.log(res);
+            })
+            .catch(err => {
+                console.error(err);
+            })
         setAddRecipe(newRecipe);
     };
 
@@ -44,11 +60,19 @@ export default function AddRecipe() {
         }
     }, [addRecipe, postSingleRecipe]);
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            setFile(event.target.files[0]);
+        }
+    }
+
+
     return (
         <>
             <FormContainer onSubmit={handleSubmit}>
                 <FormHeadline>Add your tasty Recipe</FormHeadline>
                 <NameInput type="text" value={inputFields.name} onChange={handleChange} name="name" placeholder="Name"/>
+                <input type={'file'} onChange={handleFileChange} accept={"image/jpeg, image/png"}/>
                 <IngredientsInput type="text" value={inputFields.ingredients} onChange={handleChange} name="ingredients"
                                   placeholder="Ingredients"/>
                 <InstructionsInput type="text" value={inputFields.instructions} onChange={handleChange}
@@ -57,6 +81,9 @@ export default function AddRecipe() {
                 <CheckButton type="submit"><img src={checkbutton} alt="checkbutton" width="50"
                                                 height="50"/></CheckButton>
             </FormContainer>
+            {
+                url ? <a href={url}>{url}</a> : ''
+            }
             <Navbar/>
         </>
 
