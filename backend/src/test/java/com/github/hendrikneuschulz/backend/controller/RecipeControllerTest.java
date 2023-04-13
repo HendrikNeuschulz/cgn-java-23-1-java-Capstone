@@ -32,7 +32,11 @@ class RecipeControllerTest {
 
 
     @Test
+    @WithMockUser(username = "user", password = "123")
     void whenGetAllRecipes_ThenReturnListOfAllRecipes() throws Exception {
+
+        mongoUserRepository.save(new MongoUser("111", "user", "123", "BASIC"));
+
         mockMvc.perform(MockMvcRequestBuilders.get("/api/wtf/recipes"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json("[]"));

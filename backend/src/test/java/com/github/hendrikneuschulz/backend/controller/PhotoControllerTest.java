@@ -19,7 +19,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
-@WebMvcTest(controllers = PhotoController.class)
+
+@SpringBootTest
+@AutoConfigureMockMvc
 class PhotoControllerTest {
 
     @Autowired
@@ -47,13 +49,15 @@ class PhotoControllerTest {
     @WithMockUser(username = "user", password = "123")
     @DirtiesContext
     void shouldUploadPhoto() throws Exception {
+        mongoUserRepository.save(new MongoUser("111", "user", "123", "BASIC"));
+
         String expectedResponse = "http://example.com/test.jpg";
 
         when(photoService.uploadImage(mockMultipartFile)).thenReturn(expectedResponse);
 
 
         mockMvc.perform(MockMvcRequestBuilders.multipart("/api/wtf/recipes/upload")
-                        .file(mockMultipartFile))
+                        .file(mockMultipartFile).with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(expectedResponse));
     }
