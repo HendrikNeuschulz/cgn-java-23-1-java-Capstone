@@ -13,27 +13,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-public class MongoUserServiceTest {
+ class MongoUserServiceTest {
 
-    private MongoUserRepository userRepository = Mockito.mock(MongoUserRepository.class);
-    private MongoUserDetailsService userDetailsService = new MongoUserDetailsService(userRepository);
+     private final MongoUserRepository userRepository = Mockito.mock(MongoUserRepository.class);
+     private final MongoUserDetailsService userDetailsService = new MongoUserDetailsService(userRepository);
 
-    @Test
-    public void loadUserByUsername_userFound_returnsUserDetails() {
-        MongoUser user = new MongoUser("testUser", "password", "USER", "BASIC");
+     @Test
+     void loadUserByUsername_userFound_returnsUserDetails() {
+         MongoUser user = new MongoUser("testUser", "password", "USER", "BASIC");
 
-        when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
+         when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername("testUser");
+         UserDetails userDetails = userDetailsService.loadUserByUsername("testUser");
 
-        assertEquals(user.username(), userDetails.getUsername());
-        assertEquals(user.password(), userDetails.getPassword());
-    }
+         assertEquals(user.username(), userDetails.getUsername());
+         assertEquals(user.password(), userDetails.getPassword());
+     }
 
-    @Test
-    public void loadUserByUsername_userNotFound_throwsException() {
-        when(userRepository.findByUsername("nonExistentUser")).thenReturn(Optional.empty());
+     @Test
+     void loadUserByUsername_userNotFound_throwsException() {
+         when(userRepository.findByUsername("nonExistentUser")).thenReturn(Optional.empty());
 
-        assertThrows(UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername("nonExistentUser"));
-    }
-}
+         assertThrows(UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername("nonExistentUser"));
+     }
+ }

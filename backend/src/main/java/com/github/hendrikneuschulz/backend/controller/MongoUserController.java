@@ -61,7 +61,7 @@ public class MongoUserController {
 
     @PostMapping("/logout")
     public void logout() {
-
+        throw new UnsupportedOperationException("Logout not supported here, it is handled automatically by Spring Security.");
     }
 
 
