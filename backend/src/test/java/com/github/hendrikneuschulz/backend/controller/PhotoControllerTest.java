@@ -1,23 +1,32 @@
 package com.github.hendrikneuschulz.backend.controller;
 
+import com.github.hendrikneuschulz.backend.model.MongoUser;
+import com.github.hendrikneuschulz.backend.repository.MongoUserRepository;
 import com.github.hendrikneuschulz.backend.service.PhotoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 @WebMvcTest(controllers = PhotoController.class)
 class PhotoControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    MongoUserRepository mongoUserRepository;
 
     @MockBean
     private PhotoService photoService;
@@ -35,10 +44,13 @@ class PhotoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "123")
+    @DirtiesContext
     void shouldUploadPhoto() throws Exception {
         String expectedResponse = "http://example.com/test.jpg";
 
         when(photoService.uploadImage(mockMultipartFile)).thenReturn(expectedResponse);
+
 
         mockMvc.perform(MockMvcRequestBuilders.multipart("/api/wtf/recipes/upload")
                         .file(mockMultipartFile))
